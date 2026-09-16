@@ -355,15 +355,78 @@
   .foot-col a:hover { color:var(--ivory); }
   .foot-bottom { display:flex; justify-content:space-between; align-items:center; padding-top:32px; border-top:1px solid var(--hair); font-size:0.75rem; letter-spacing:0.05em; color:var(--sage); flex-wrap:wrap; gap:10px; }
 
+  /* ---------- MOBILE MENU ---------- */
+  .mobile-toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--ivory);
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: none; /* keep custom cursor */
+    font-family: var(--sans);
+  }
+
+  .mobile-menu {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100vh;
+    background: var(--deep);
+    z-index: 999999;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+  }
+  .mobile-menu.is-active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .mobile-menu-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+  }
+  .mobile-link {
+    font-family: var(--serif);
+    font-size: 2.5rem;
+    color: var(--ivory);
+    text-decoration: none;
+    transition: color 0.3s ease;
+    cursor: none;
+  }
+  .mobile-link:hover {
+    color: var(--brass-soft);
+  }
+  .mobile-close {
+    position: absolute;
+    top: 40px; right: 40px;
+    background: none;
+    border: none;
+    color: var(--ivory);
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: none;
+    font-family: var(--sans);
+  }
+
   /* RESPONSIVE */
   @media (max-width: 900px) {
     #preloader { padding: 40px 24px; }
     .nav-links { display:none; }
+    .nav-cta { display:none; }
+    .mobile-toggle { display: block; }
+    
     .hero-content { padding-top:120px; }
     .hero-bg::after { background: linear-gradient(0deg, rgba(7,13,10,1) 0%, rgba(7,13,10,0.8) 60%, rgba(7,13,10,0.3) 100%); }
     .section-head { grid-template-columns:1fr; gap:20px; margin-bottom:40px; }
     .phil-grid { grid-template-columns:1fr; gap:60px; }
-    .grid-koleksi { grid-template-columns:1fr; }
+    .grid-koleksi { grid-template-columns:1fr; gap: 40px; }
     .card .photo { height:360px; }
     .craft-stats { grid-template-columns:1fr 1fr; }
     .news { grid-template-columns:1fr; gap:50px; }
@@ -371,6 +434,31 @@
     section { padding:100px 0; }
     .craft-bg { height:850px; }
     .wrap { padding: 0 32px; }
+  }
+
+  @media (max-width: 600px) {
+    .hero h1 { font-size: clamp(3rem, 12vw, 4rem); }
+    .hero p.lede { font-size: 1.05rem; }
+    .hero-actions { display: flex; flex-direction: column; width: 100%; gap: 16px; }
+    .btn-primary { padding: 16px 28px; width: 100%; text-align: center; }
+    .link-text { display: inline-block; align-self: center; }
+    
+    .section-head h2 { font-size: 2.5rem; }
+    .phil-grid h3 { font-size: 2rem; }
+    .phil-item h4 { font-size: 1.5rem; }
+    
+    .craft-stats { grid-template-columns: 1fr; gap: 30px; text-align: center; }
+    .stat b { font-size: 2.8rem; }
+    
+    .testi blockquote { font-size: 1.5rem; padding: 0 10px; }
+    .news h2 { font-size: 2.2rem; }
+    
+    .foot-grid { grid-template-columns: 1fr; gap: 40px; }
+    .foot-bottom { flex-direction: column; align-items: flex-start; gap: 20px; }
+    
+    section { padding: 60px 0; }
+    .craft-bg { height: 750px; }
+    .wrap { padding: 0 20px; }
   }
 </style>
 </head>
@@ -408,9 +496,20 @@
         <a href="#kontak">Kontak</a>
       </div>
       <a href="#koleksi" class="nav-cta">Jelajahi Koleksi</a>
+      <button class="mobile-toggle" id="mobileToggle">Menu</button>
     </nav>
   </div>
 </header>
+
+<div class="mobile-menu" id="mobileMenu">
+  <div class="mobile-menu-inner">
+    <button class="mobile-close" id="mobileClose">Tutup</button>
+    <a href="#filosofi" class="mobile-link">Filosofi</a>
+    <a href="#koleksi" class="mobile-link">Koleksi</a>
+    <a href="#craft" class="mobile-link">Proses</a>
+    <a href="#kontak" class="mobile-link">Kontak</a>
+  </div>
+</div>
 
 <section class="hero" id="top">
   <div class="hero-bg">
@@ -842,6 +941,27 @@
     });
   }, {threshold:0.5});
   stats.forEach(el => countIO.observe(el));
+
+  // MOBILE MENU LOGIC
+  const mobileToggle = document.getElementById('mobileToggle');
+  const mobileClose = document.getElementById('mobileClose');
+  const mobileMenu = document.getElementById('mobileMenu');
+  const mobileLinks = document.querySelectorAll('.mobile-link');
+
+  if(mobileToggle && mobileClose && mobileMenu) {
+    mobileToggle.addEventListener('click', () => {
+      mobileMenu.classList.add('is-active');
+    });
+    
+    const closeMenu = () => {
+      mobileMenu.classList.remove('is-active');
+    };
+    
+    mobileClose.addEventListener('click', closeMenu);
+    mobileLinks.forEach(link => {
+      link.addEventListener('click', closeMenu);
+    });
+  }
 </script>
 
 </body>
