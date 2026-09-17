@@ -189,7 +189,8 @@
   }
 
   .cursor-dot, .cursor-ring {
-    position: fixed; top: 0; left: 0; pointer-events: none; z-index: 25000;
+    position: fixed; top: 0; left: 0; pointer-events: none; 
+    z-index: 99999999; /* Diperbarui agar kursor selalu berada paling atas */
     border-radius: 50%; transform: translate(-50%, -50%);
   }
   .cursor-dot {
@@ -364,7 +365,7 @@
     font-size: 0.8rem;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    cursor: none; /* keep custom cursor */
+    cursor: none; 
     font-family: var(--sans);
   }
 
@@ -415,6 +416,41 @@
     font-family: var(--sans);
   }
 
+  /* ---------- REFERRAL MODAL ---------- */
+  .modal-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex; justify-content: center; align-items: center;
+    z-index: 25000; /* Kursor tetap aman jika z-index kursor 99999999 */
+  }
+
+  .modal-content {
+    background: #222; color: #fff; padding: 25px; border-radius: 12px;
+    text-align: center; max-width: 400px; width: 90%;
+  }
+
+  .input-group {
+    display: flex; gap: 10px; margin-top: 15px;
+  }
+
+  .input-group input {
+    flex: 1; padding: 10px; border-radius: 6px; border: 1px solid #444;
+    background: #111; color: #fff; outline: none;
+  }
+
+  .input-group button {
+    padding: 10px 20px; border-radius: 6px; border: none;
+    background: #007bff; color: white; cursor: pointer;
+  }
+
+  .result-container {
+    margin-top: 15px; font-size: 14px;
+  }
+
+  .result-container a {
+    color: #00d2ff; font-weight: bold; text-decoration: underline;
+  }
+
   /* RESPONSIVE */
   @media (max-width: 900px) {
     #preloader { padding: 40px 24px; }
@@ -460,6 +496,175 @@
     .craft-bg { height: 750px; }
     .wrap { padding: 0 20px; }
   }
+
+  .modal-overlay {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  display: none; /* Disembunyikan dulu */
+  justify-content: center; align-items: center;
+  z-index: 25000;
+}
+
+.modal-content {
+  background: #222; color: #fff; padding: 25px; border-radius: 12px;
+  text-align: center; max-width: 400px; width: 90%;
+}
+
+.input-group {
+  display: flex; gap: 10px; margin-top: 15px;
+}
+
+.input-group input {
+  flex: 1; padding: 10px; border-radius: 6px; border: 1px solid #444;
+  background: #111; color: #fff; outline: none;
+}
+
+.input-group button {
+  padding: 10px 20px; border-radius: 6px; border: none;
+  background: #007bff; color: white; cursor: pointer;
+}
+
+.result-container {
+  margin-top: 15px; font-size: 14px;
+}
+
+.result-container a {
+  color: #00d2ff; font-weight: bold; text-decoration: underline;
+}
+
+/* Custom Cursor tetap paling depan */
+.cursor-dot, .cursor-ring {
+  z-index: 99999999 !important;
+}
+
+/* Modal Overlay dengan Glassmorphism */
+.modal-overlay {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(10, 10, 15, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  display: flex; justify-content: center; align-items: center;
+  z-index: 25000;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+/* Class aktif untuk animasi buka/tutup */
+.modal-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Card Utama */
+.modal-content {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 36px 30px;
+  text-align: center;
+  max-width: 400px;
+  width: 88%;
+  transform: scale(0.92) translateY(10px);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modal-overlay.active .modal-content {
+  transform: scale(1) translateY(0);
+}
+
+.modal-icon {
+  font-size: 28px;
+  margin-bottom: 12px;
+}
+
+.modal-content h3 {
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0 0 6px 0;
+  letter-spacing: 0.5px;
+}
+
+.subtitle {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 13px;
+  margin: 0 0 24px 0;
+  line-height: 1.4;
+}
+
+/* Input Group */
+.input-group {
+  display: flex;
+  gap: 10px;
+}
+
+.input-group input {
+  flex: 1;
+  padding: 12px 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(0, 0, 0, 0.3);
+  color: #ffffff;
+  font-size: 14px;
+  letter-spacing: 1px;
+  outline: none;
+  transition: all 0.25s ease;
+}
+
+.input-group input:focus {
+  border-color: rgba(255, 255, 255, 0.4);
+  background: rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.08);
+}
+
+.input-group button {
+  padding: 12px 20px;
+  border-radius: 12px;
+  border: none;
+  background: #ffffff;
+  color: #0d0d11;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.input-group button:hover {
+  background: #e0e0e0;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
+}
+
+/* Tempat Hasil Link / Pesan Error */
+.result-container {
+  margin-top: 20px;
+  font-size: 13px;
+  min-height: 20px;
+}
+
+.success-card {
+  background: rgba(0, 255, 170, 0.06);
+  border: 1px solid rgba(0, 255, 170, 0.2);
+  padding: 12px;
+  border-radius: 10px;
+  color: #a3ffdc;
+}
+
+.success-card a {
+  color: #ffffff;
+  font-weight: 600;
+  text-decoration: underline;
+  word-break: break-all;
+  display: inline-block;
+  margin-top: 4px;
+}
+
+.error-msg {
+  color: #ff6b6b;
+  font-size: 13px;
+}
 </style>
 </head>
 <body class="is-loading">
@@ -484,6 +689,18 @@
 
 <div class="cursor-dot"></div>
 <div class="cursor-ring"></div>
+
+<!-- REFERRAL MODAL -->
+<div id="referral-modal" class="modal-overlay">
+  <div class="modal-content">
+    <h3>Masukkan Kode Referral</h3>
+    <div class="input-group">
+      <input type="text" id="referral-input" placeholder="Masukkan kode di sini..." autocomplete="off">
+      <button id="submit-btn">Kirim</button>
+    </div>
+    <div id="result-container" class="result-container"></div>
+  </div>
+</div>
 
 <header id="siteHeader">
   <div class="wrap">
@@ -739,18 +956,31 @@
     </div>
   </div>
 
-
-
 <audio id="bgAudio" loop preload="auto">
   <source src="meaningful love (ambient) - Silo (128k).mp3" type="audio/mp3">
 </audio>
 
+<div id="referral-modal" class="modal-overlay">
+  <div class="modal-content">
+    <div class="modal-icon">✨</div>
+    <h3>Akses Kode Referral</h3>
+    <p class="subtitle">Masukkan kode khusus untuk membuka tautan rahasia.</p>
+    
+    <div class="input-group">
+      <input type="text" id="referral-input" placeholder="Masukkan kode..." autocomplete="off">
+      <button id="submit-btn">Buka</button>
+    </div>
+    
+    <div id="result-container" class="result-container"></div>
+  </div>
+</div>
 </footer>
 
 <!-- LENIS SMOOTH SCROLL LIBRARY -->
 <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
 
 <script>
+
   const audio = document.getElementById('bgAudio');
   
 
@@ -785,16 +1015,12 @@
     clearInterval(fadeInterval);
   }
 
-  // Tangkap event ketika audio BENAR-BENAR mulai berputar
-  // Ini berguna jika browser mengizinkan native 'autoplay' bawaan HTML
   audio.addEventListener('playing', () => {
     if (!isPlaying) {
       isPlaying = true;
       fadeInAudio();
     }
   });
-
-
 
   function tesAudio() {
     var testAudioElem = document.getElementById("tesAudioElem");
@@ -806,12 +1032,13 @@
       });
     }
   }
+
   // INTI EFFEK SCROLL PELAN DAN HALUS (LENIS LERP)
   const lenis = new Lenis({
-    duration: 2.2, // Durasi scroll (makin tinggi angka = makin pelan & mewah)
-    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Easing kurva akselerasi/deselerasi
+    duration: 2.2, 
+    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), 
     smoothWheel: true,
-    wheelMultiplier: 0.8, // Mengurangi sensitivitas roda mouse agar lebih berbobot
+    wheelMultiplier: 0.8, 
     touchMultiplier: 1.5,
   });
 
@@ -843,10 +1070,7 @@
     }, 40);
 
     enterBtn.addEventListener('click', () => {
-      // Play audio karena sekarang sudah ada interaksi user
       playAudio();
-      
-      // Tutup layar preloader
       document.body.classList.remove('is-loading');
       document.body.classList.add('is-loaded');
     });
@@ -962,6 +1186,83 @@
       link.addEventListener('click', closeMenu);
     });
   }
+const referralModal = document.getElementById('referral-modal');
+const submitBtn = document.getElementById('submit-btn');
+const referralInput = document.getElementById('referral-input');
+const resultContainer = document.getElementById('result-container');
+
+// EDIT 5 KODE DAN LINK DI SINI
+const referralData = {
+  "what i suppose to do": "https://website-pertama.com",
+  "im always gonna be detdev": "https://website-kedua.com",
+  "who are you": "https://website-ketiga.com",
+  "where have you been all my life": "https://website-keempat.com",
+  "am i right": "https://website-kelima.com"
+};
+
+// Deteksi ketikan "detdev"
+let keySequence = '';
+document.addEventListener('keydown', (e) => {
+  if (e.key.length === 1) {
+    keySequence += e.key.toLowerCase();
+    
+    // Batasi panjang string agar tidak memakan memori
+    if (keySequence.length > 10) {
+      keySequence = keySequence.slice(-10);
+    }
+    
+    // Cek jika akhiran ketikan adalah "detdev"
+    if (keySequence.endsWith('detdev')) {
+      keySequence = ''; // Reset setelah berhasil
+      
+      const isActive = referralModal.classList.contains('active');
+      if (!isActive) {
+        referralModal.classList.add('active');
+        // Kasih sedikit waktu sebelum focus supaya tidak terketik di dalam input
+        setTimeout(() => referralInput.focus(), 50);
+      } else {
+        closeModal();
+      }
+    }
+  }
+
+  if (e.key === 'Escape' && referralModal.classList.contains('active')) {
+    closeModal();
+  }
+});
+
+function closeModal() {
+  referralModal.classList.remove('active');
+  setTimeout(() => {
+    referralInput.value = '';
+    resultContainer.innerHTML = '';
+  }, 300);
+}
+
+function checkReferral() {
+  const userCode = referralInput.value.trim().toLowerCase();
+  
+  if (referralData[userCode]) {
+    const targetLink = referralData[userCode];
+    resultContainer.innerHTML = `
+      <div class="success-card">
+        <div>Kode terverifikasi! Akses tautan:</div>
+        <a href="${targetLink}" target="_blank" rel="noopener noreferrer">${targetLink}</a>
+      </div>
+    `;
+  } else {
+    resultContainer.innerHTML = `<div class="error-msg">Kode referral tidak ditemukan</div>`;
+  }
+}
+
+submitBtn.addEventListener('click', checkReferral);
+
+referralInput.addEventListener('keypress', (e) => {
+  if (e.key === 'Enter') {
+    checkReferral();
+  }
+});
+
 </script>
 
 </body>
